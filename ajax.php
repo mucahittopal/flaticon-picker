@@ -14,10 +14,13 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
           if (!file_exists($imageDirSource)) { 
               mkdir($imageDirSource, 0777, true); 
           }
-
-          if (!file_exists($imageDirSource.end($path))) { 
-            copy($url, $imageDirSource.end($path));
-          }
+	
+	if (!file_exists($imageDirSource.end($path))) { 
+	  $fileExt=pathinfo($url,PATHINFO_EXTENSION);
+	  if(in_array($fileExt,["svg","svgz","png","jpg"]) && $str["host"]=="image.flaticon.com"){
+		copy($url, $imageDirSource.end($path));
+	  }
+	}	      
           if (file_exists($imageDirSource.end($path))) { 
             $req="ok";
           }else{
