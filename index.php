@@ -68,6 +68,7 @@
         <img height="20" width="20" src="" style="display:none">
         <input type="hidden" name="icon">
       </button>
+      <button type="button" class="btn btn-default flatIconEmpty glyphicon glyphicon-remove  "style='display:none'></button>
       <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle"  id="mydropdown" data-toggle="dropdown">Select <span class="caret"></span></button>
         <div class="dropdown-menu" role="menu">
@@ -116,13 +117,21 @@
  });
   $("body").on("click",".flatIconClose",function(e){
    $("#mydropdown").parent().removeClass('open');
- });
+ });  
+  $("body").on("click",".flatIconEmpty",function(e){
+    $(this).hide();
+    $(".flatIconVal").addClass("glyphicon-plus");
+    $(".flatIconVal input").val("");
+    $(".flatIconVal img").attr("src","").hide();
+    flatIconGeting("",0,"flatIcon-list");
+  });
   $('body').on("click", ".dropdown-menu", function (e) {
     $(this).parent().is(".open") && e.stopPropagation();
 });
   $("body").on("click",".flatIconSelect",function(){
    var img=$(this).data("src");
    if(img){
+    $(".flatIconEmpty").show();
     $(".flatIconVal").removeClass("glyphicon-plus");
     $(".flatIconVal input").val(img);
     $(".flatIconVal img").attr("src",img).show();
