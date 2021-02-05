@@ -113,6 +113,8 @@
     var keyword=$(".flatIconText").val();
     if(keyword){
       flatIconGeting(keyword);
+    }else{
+      flatIconGeting("",0,"flatIcon-list")
     }
  });
   $("body").on("click",".flatIconClose",function(e){
