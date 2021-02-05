@@ -15,12 +15,12 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
               mkdir($imageDirSource, 0777, true); 
           }
 	
-	if (!file_exists($imageDirSource.end($path))) { 
-	  $fileExt=pathinfo($url,PATHINFO_EXTENSION);
-	  if(in_array($fileExt,["svg","svgz","png","jpg"]) && $str["host"]=="image.flaticon.com"){
+	  if (!file_exists($imageDirSource.end($path))) { 
+	    $fileExt=pathinfo($url,PATHINFO_EXTENSION);
+	    if(in_array($fileExt,["svg","svgz","png","jpg"]) && $str["host"]=="image.flaticon.com"){
 		copy($url, $imageDirSource.end($path));
-	  }
-	}	      
+	    }
+	  }	      
           if (file_exists($imageDirSource.end($path))) { 
             $req="ok";
           }else{
@@ -33,14 +33,14 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
         case"flatIcon-list":
           $perpage=50;
           $counter=0;
-          $currentPage = (int)($_POST['page'])?$_POST['page']:1;
+          $currentPage = isset($_POST['page'])? (int) $_POST['page']:1; 
           $dir = new DirectoryIterator($imageDirSource);
           foreach($dir as $file ){ $counter += ($file->isFile()) ? 1 : 0;}
           $pagesCount   = ceil($counter/$perpage); 
           $paginated = new LimitIterator($dir, $currentPage * $perpage, $perpage);
-		  if (!$paginated->valid()) {
+	  if (!$paginated->valid()) {
           	$paginated = $dir;
-	 	  }
+	  }
           $nextPage   = ($currentPage+1 > $pagesCount)?$pagesCount:$currentPage+1; 
           $previousPage = ($currentPage-1 == 0)?1:$currentPage-1; 
 
@@ -63,7 +63,7 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
 
          	$svg=$_POST['type']=="true"?true:false;
          	$loader=false;
-      		$currentPage = (int)($_POST['page'])?$_POST['page']:1; 
+          	$currentPage = isset($_POST['page'])? (int) $_POST['page']:1; 
       		$keyword 	 = $_POST['keyword']; 
       		$dom 		 = new Dom;
       		$dom->load('https://www.flaticon.com/search/'.$currentPage.'?word='.$keyword); 
@@ -74,31 +74,31 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
       		$nextPage		= ($currentPage+1 > $pagesCount)?$pagesCount:$currentPage+1; 
       		$previousPage	= ($currentPage-1 == 0)?1:$currentPage-1; 
         	$html="";
-          foreach ($contents as $content){
-                $innerDom = new Dom;  
-                $innerDom->load($content->outerHtml); 
-                $img = $innerDom->getElementsbyTag('img');
-              if(!current($img)){ continue; } 
-            	if($svg){
-                	if(current($innerDom->find(".flaticon-premium")) || current($innerDom->find('[data-type="premium"]'))){ continue; }
-                 	$toSvg=str_replace(["png","/128"],["svg",""],$img->getAttribute('data-src'));
-                	$imgSrc=$toSvg;
-              }else{
-                $imgSrc=$img->getAttribute('data-src');
-              }
-              if($loader){ 
-                $imgStr=$img->outerHtml;
-              }else{
-                 $imgStr="<img src='{$imgSrc}'>";
-              } 
-                $html.='<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1">
-                        <div class="thumbnail">
-                            <a class="flatIconSelect" href="javascript:;" data-src="'.$imgSrc.'">
-                                '.$imgStr.'
-                            </a>
-                        </div>
-                     </div>'; 
-          }
+		  foreach ($contents as $content){
+			$innerDom = new Dom;  
+			$innerDom->load($content->outerHtml); 
+			$img = $innerDom->getElementsbyTag('img');
+		      if(!current($img)){ continue; } 
+			if($svg){
+				if(current($innerDom->find(".flaticon-premium")) || current($innerDom->find('[data-type="premium"]'))){ continue; }
+				$toSvg=str_replace(["png","/128"],["svg",""],$img->getAttribute('data-src'));
+				$imgSrc=$toSvg;
+		      }else{
+			$imgSrc=$img->getAttribute('data-src');
+		      }
+		      if($loader){ 
+			$imgStr=$img->outerHtml;
+		      }else{
+			 $imgStr="<img src='{$imgSrc}'>";
+		      } 
+			$html.='<div class="col-xs-3 col-sm-2 col-md-2 col-lg-1">
+				<div class="thumbnail">
+				    <a class="flatIconSelect" href="javascript:;" data-src="'.$imgSrc.'">
+					'.$imgStr.'
+				    </a>
+				</div>
+			     </div>'; 
+		  }
         	echo json_encode(["html"=>$html,"keyword"=>$keyword,"cur_page"=>$currentPage,"pre_page"=>$previousPage,"next_page"=>$nextPage,"total_page"=>$pagesCount]);
         break;
     }
