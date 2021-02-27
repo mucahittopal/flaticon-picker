@@ -67,7 +67,7 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
       		$keyword 	 = $_POST['keyword']; 
       		$dom 		 = new Dom;
       		$dom->load('https://www.flaticon.com/search/'.$currentPage.'?word='.$keyword); 
-      		$contents 	= $dom->find('li.icon'); 
+      		$contents 	= $dom->find('li.icon--item'); 
         
       		$pagesCount 	= $dom->find('span#pagination-total')[0]; 
       		$pagesCount 	= (int)$pagesCount->text;
