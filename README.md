@@ -1,6 +1,12 @@
 # flaticon-picker
 Flaticon Picker &amp; Downloader - Flaticon Collection
 
+<h3>---UPDATED--- <strong>No longer available due to new fee policy.
+Updated so that only png is available.</strong></h3>
+
+<br>
+
+
 
 It is a system where you can save the icon archive on flaticon.com in svg and png formats to your own folder for use in your projects.
 
