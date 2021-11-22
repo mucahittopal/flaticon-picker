@@ -55,11 +55,10 @@
   <div class="col-sm-12">
     <div class="form-group">
       <label>Select File Type</label>
-      <div class="radio">
-        <label><input type="radio" class="flatIconType" name="type" value="true" checked>SVG</label>
+        <label><input type="radio" class="flatIconType" name="type" value="true" disabled>SVG<small> (No longer available due to new fee policy)</small></label>
       </div>
       <div class="radio">
-        <label><input type="radio" class="flatIconType" name="type" value="false">PNG</label>
+        <label><input type="radio" class="flatIconType" name="type" value="false" checked>PNG</label>
       </div>
     </div>
     <div class="btn-group">
