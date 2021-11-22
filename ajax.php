@@ -16,8 +16,9 @@ $imageDirSource=dirname(__FILE__).'/'.$imageDir;
           }
 	
 	  if (!file_exists($imageDirSource.end($path))) { 
-	    $fileExt=pathinfo($url,PATHINFO_EXTENSION);
-	    if(in_array($fileExt,["svg","svgz","png","jpg"]) && $str["host"]=="image.flaticon.com"){
+	    $fileExt=pathinfo($url,PATHINFO_EXTENSION); 
+	    $fileExt=explode("?",$fileExt)[0];
+        	if(in_array($fileExt,["svg","svgz","png","jpg"]) && ($str["host"]=="image.flaticon.com" || $str["host"]=="cdn-icons-png.flaticon.com" || $str["host"]=="cdn-icons.flaticon.com")){
 		copy($url, $imageDirSource.end($path));
 	    }
 	  }	      
